@@ -9,6 +9,16 @@ save_user_information = (data) => new Promise((resole,reject)=>{
   });
 })
 
+
+get_tatal_amount = (data) => new Promise((resole,reject)=>{
+  db.query('select sum(amount) as total_amount from lottery_information',null,function(err,results,fields){
+    if(err){
+      reject('could not get total amount');
+    }
+    resole(results);
+  });
+})
+
 module.exports = {
   save_user_information
 }
