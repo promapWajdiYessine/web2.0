@@ -1,11 +1,12 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
+const {save_user_information} = require('./models/server_db');
 
 app.use(bodyParser.json());
 
 
-app.post('/',(req,res)=>{
+app.post('/', async (req,res) =>{
   var email = req.body.email;
   var amount = req.body.amount;
   if(amount <=1 ){
@@ -14,7 +15,8 @@ app.post('/',(req,res)=>{
     return_info.message = "the amount should be greater than 1";
     return res.send(return_info);
   }
-  res.send({"amount": amount, "email": email});
+  var result = await save_user_information({"amount": amount,"email": email});
+  res.send(result);
 });
 
 app.listen(3000,()=>{
